@@ -1,0 +1,466 @@
+/* /* ============================================
+   RESET & VARIÁVEIS
+============================================ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --roxo-1: #667eea;
+    --roxo-2: #764ba2;
+    --rosa:   #f093fb;
+    --azul:   #4facfe;
+    --ciano:  #00f2fe;
+    --branco-glass: rgba(255, 255, 255, 0.15);
+    --borda-glass: rgba(255, 255, 255, 0.25);
+    --sombra-suave: 0 20px 50px rgba(0, 0, 0, 0.25);
+    --transicao: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   BODY — Fundo animado com auroras
+============================================ */
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    background: #0f0c29;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+}
+
+/* Auroras coloridas flutuando no fundo */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.55;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::before {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #667eea, transparent 70%);
+    top: -150px;
+    left: -150px;
+    animation: flutuar1 15s ease-in-out infinite;
+}
+
+body::after {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #f093fb, transparent 70%);
+    bottom: -200px;
+    right: -200px;
+    animation: flutuar2 18s ease-in-out infinite;
+}
+
+@keyframes flutuar1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(80px, 60px) scale(1.15); }
+}
+
+@keyframes flutuar2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-70px, -50px) scale(1.1); }
+}
+
+/* ============================================
+   TÍTULO — Gradiente animado + glow
+============================================ */
+h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(
+        90deg,
+        #667eea, #764ba2, #f093fb, #4facfe, #00f2fe, #667eea
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradienteAnimado 6s ease infinite, entrarBaixo 0.9s ease both;
+    text-align: center;
+    filter: drop-shadow(0 0 25px rgba(102, 126, 234, 0.6));
+}
+
+@keyframes gradienteAnimado {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+
+@keyframes entrarBaixo {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   HR — Linha luminosa
+============================================ */
+hr {
+    width: 100px;
+    height: 3px;
+    border: none;
+    background: linear-gradient(90deg, transparent, #667eea, #f093fb, transparent);
+    margin: 15px 0 35px;
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(240, 147, 251, 0.7);
+    animation: entrarBaixo 1s 0.2s ease both;
+}
+
+/* ============================================
+   FORM — Glassmorphism
+============================================ */
+form {
+    background: var(--branco-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--borda-glass);
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: var(--sombra-suave),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    width: 100%;
+    max-width: 420px;
+    animation: entrarBaixo 1s 0.35s ease both;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brilho diagonal que passa pelo card */
+form::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 70%
+    );
+    animation: brilhoVarredura 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes brilhoVarredura {
+    0%, 100% { transform: translateX(-100%) rotate(0deg); }
+    50%      { transform: translateX(100%)  rotate(0deg); }
+}
+
+form p {
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 1;
+}
+
+form p:last-child {
+    margin-bottom: 0;
+    display: flex;
+    gap: 12px;
+}
+
+/* ============================================
+   LABEL
+============================================ */
+label {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   INPUT NUMBER — Estilo premium
+============================================ */
+input[type="number"] {
+    width: 100%;
+    padding: 15px 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 600;
+    transition: var(--transicao);
+    outline: none;
+}
+
+input[type="number"]::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+input[type="number"]:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #f093fb;
+    box-shadow: 0 0 0 4px rgba(240, 147, 251, 0.2),
+                0 0 30px rgba(240, 147, 251, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Remove as setinhas padrão em alguns navegadores (opcional) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ============================================
+   BOTÕES
+============================================ */
+input[type="submit"],
+input[type="reset"] {
+    flex: 1;
+    padding: 15px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transicao);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Botão Calcular — gradiente vibrante com brilho */
+input[type="submit"] {
+    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 200%;
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(118, 75, 162, 0.5);
+    animation: gradienteAnimado 4s ease infinite;
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(240, 147, 251, 0.6),
+                0 0 40px rgba(102, 126, 234, 0.5);
+}
+
+input[type="submit"]:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+/* Botão Limpar — outline elegante */
+input[type="reset"] {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+input[type="reset"]:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   TABELA — Glass com hover encantador
+============================================ */
+table {
+    background: var(--branco-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--borda-glass);
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 30px;
+    animation: entrarBaixo 1s 0.35s ease both;
+}
+
+table thead {
+    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 200%;
+    animation: gradienteAnimado 5s ease infinite;
+}
+
+table th {
+    padding: 18px 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+table td {
+    padding: 15px 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: var(--transicao);
+    position: relative;
+}
+
+/* Linha colorida que cresce no hover */
+table tbody tr {
+    transition: var(--transicao);
+    position: relative;
+}
+
+table tbody tr::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #f093fb, #4facfe);
+    transition: width 0.4s ease;
+}
+
+table tbody tr:hover::after {
+    width: 100%;
+}
+
+table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    transform: scale(1.01);
+}
+
+table tbody tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Destaque na coluna de resultado */
+table td:last-child {
+    font-weight: 700;
+    color: #f093fb;
+    text-shadow: 0 0 15px rgba(240, 147, 251, 0.5);
+}
+
+/* ============================================
+   BOTÃO VOLTAR
+============================================ */
+.voltar {
+    display: inline-block;
+    padding: 14px 32px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    transition: var(--transicao);
+    animation: entrarBaixo 1s 0.5s ease both;
+    position: relative;
+    overflow: hidden;
+}
+
+.voltar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.voltar:hover::before {
+    left: 100%;
+}
+
+.voltar:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4),
+                0 0 30px rgba(102, 126, 234, 0.3);
+}
+
+/* ============================================
+   RESPONSIVIDADE
+============================================ */
+@media (max-width: 520px) {
+    h1 {
+        font-size: 2.2rem;
+        letter-spacing: 2px;
+    }
+
+    form {
+        padding: 30px 25px;
+        border-radius: 20px;
+    }
+
+    form p:last-child {
+        flex-direction: column;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        width: 100%;
+    }
+
+    table th,
+    table td {
+        padding: 12px 10px;
+        font-size: 0.9rem;
+    }
+
+    table th {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .voltar {
+        font-size: 0.85rem;
+        padding: 12px 24px;
+    }
+}
+
+/* ============================================
+   ACESSIBILIDADE — reduz animações
+============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+} 
